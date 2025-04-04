@@ -13,14 +13,14 @@ namespace ideeenbus.Controllers;
 [Route("IdeeenController/")]
 public class IdeeenController: ControllerBase {
 
-    // Todo use dependency injection i.c.m adapter pattern voor data opslag.
+    // Todo use dependency injection here i.c.m adapter pattern for data storage.
+    // the adapter pattern will make it easy to adapt to another storage method.
     private DatabaseContext _context = new DatabaseContext();
 
     [HttpPost]
     [Route("SubmitForm")]
     public async Task<IActionResult> SubmitForm([FromForm] Idee idee)
     {
-        //return Ok("hallo");
         try
         {
             idee.Validate();
@@ -28,6 +28,7 @@ public class IdeeenController: ControllerBase {
             _context.Add(IdeeEntity.fromModel(idee));
             await _context.SaveChangesAsync();
 
+            // TODO sort based on creation DateTime descending from the latest.
             List<IdeeEntity> ideeEntities = await _context.Ideeen
                 .Include(i => i.categoryEntities)
                 .ToListAsync();
@@ -40,8 +41,11 @@ public class IdeeenController: ControllerBase {
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            Console.Error.WriteLine(ex.ToString());
             return Problem(ex.Message);
         }
     }
+
+    // TODO Add another endpoint which retrieves all ideeen. This endpoint should have parameters to filter on idee type.
+    // The view can call this on startup to display the existing ideeen.
 }

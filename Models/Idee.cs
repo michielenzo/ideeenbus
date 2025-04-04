@@ -3,7 +3,6 @@ namespace ideeenbus.Models;
 using ideeenbus.Service.Dao;
 using ideeenbus.Exceptions;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
 
 public class Idee
 {
