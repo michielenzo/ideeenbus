@@ -7,8 +7,12 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        toggleDateFields();
+        setupToggleDateFieldsEvent();
 
+        setupSubmitFormEvent();
+    });
+
+    function setupSubmitFormEvent(){
         document.getElementById("dataForm").addEventListener("submit", async function (event) {
             event.preventDefault();
 
@@ -35,10 +39,10 @@
                     renderErrors(responseJson);
                 }
             } catch (error) {
-               console.log(error);
+                console.log(error);
             }
         });
-    });
+    }
 
     function renderIdeeen(data){
         // Clear previous content
@@ -79,7 +83,7 @@
         errorDiv.innerHTML = "";
     }
 
-    function toggleDateFields(){
+    function setupToggleDateFieldsEvent(){
         const typeSelect = document.getElementById("type");
         const dateFields = document.getElementById("dateFields");
 
