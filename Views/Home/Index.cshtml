@@ -24,8 +24,6 @@
                 let categoriesArray = categoriesInput.split(",").map(c => c.trim()).filter(c => c.length > 0);
                 formData.set("categories", JSON.stringify(categoriesArray));
             }
-            
-            console.log(formData);
 
             try {
                 let response = await fetch("/IdeeenController/SubmitForm", {
@@ -76,6 +74,7 @@
                 <div><p><strong>Categories:</strong> ${categories}</p></div>
                 ${idee.beginDatum ? `<div><p><strong>Begin Datum:</strong> ${idee.beginDatum}</p></div>` : ""}
                 ${idee.eindDatum ? `<div><p><strong>Eind Datum:</strong> ${idee.eindDatum}</p></div>` : ""}
+                ${idee.duration ? `<div><p><strong>Duurt:</strong> ${idee.duration}</p></div>` : ""}
             `;
             ideeList.appendChild(ideeDiv);
         });

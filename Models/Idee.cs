@@ -21,13 +21,25 @@ public class Idee
     [Required]
     public string type { get; set; }
 
-    [DataType(DataType.DateTime)]
     public DateTime? beginDatum { get; set; }
 
-    [DataType(DataType.DateTime)]
     public DateTime? eindDatum { get; set; }
 
-    public List<string> categories { get; set; }
+    public string? duration
+    {
+        get
+        {
+            if (beginDatum.HasValue && eindDatum.HasValue)
+            {
+                TimeSpan timeDiff = eindDatum.Value - beginDatum.Value;
+                if (timeDiff.TotalSeconds <= 0) return "Geen duur";
+                return $"{timeDiff.Days} dag(en) {timeDiff.Hours} uur en {timeDiff.Minutes} minut(en)";
+            }
+            return null;
+        }
+    }
+
+    public List<string> categories { get; set; } = new List<string>();
 
     public static Idee FromEntity(IdeeEntity entity) {
         Idee idee = new Idee();
@@ -55,6 +67,7 @@ public class Idee
         }
 
         // TODO validate if eindDatum is after beginDatum
+
 
         if (errors.Count > 0)
         {
