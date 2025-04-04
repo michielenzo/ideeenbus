@@ -20,9 +20,9 @@ public class IdeeEntity
 
     public string type { get; set; }
 
-    public string? beginDatum { get; set; }
+    public DateTime? beginDatum { get; set; }
 
-    public string? eindDatum { get; set; }
+    public DateTime? eindDatum { get; set; }
 
     public List<CategoryInIdeeEntity> categoryInIdeeEntities { get; } = new List<CategoryInIdeeEntity>();
 

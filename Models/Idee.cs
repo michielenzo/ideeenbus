@@ -21,13 +21,12 @@ public class Idee
     [Required]
     public string type { get; set; }
 
-    [DataType(DataType.Date)]
-    public string? beginDatum { get; set; }
+    [DataType(DataType.DateTime)]
+    public DateTime? beginDatum { get; set; }
 
-    [DataType(DataType.Date)]
-    public string? eindDatum { get; set; }
+    [DataType(DataType.DateTime)]
+    public DateTime? eindDatum { get; set; }
 
-    // TODO make list
     public List<string> categories { get; set; }
 
     public static Idee FromEntity(IdeeEntity entity) {
