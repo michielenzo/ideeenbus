@@ -29,7 +29,7 @@ public class Idee
     public string? eindDatum { get; set; }
 
     // TODO make list
-    public string categories { get; set; }
+    public List<string> categories { get; set; }
 
     public static Idee FromEntity(IdeeEntity entity) {
         Idee idee = new Idee();
@@ -40,12 +40,11 @@ public class Idee
         idee.type = entity.type;
         idee.beginDatum = entity.beginDatum;
         idee.eindDatum = entity.eindDatum;
-        idee.categories = entity.categories;
+        idee.categories = entity.categoryEntities.Select(c => c.Naam).ToList();
         return idee;
     }
 
     public void Validate() {
-        //throw new BusinessLogicException(new List<string>() {"error", "error"});
         List<string> errors = new List<string>();
 
         if (type == "uitje" && (beginDatum == null || eindDatum == null))

@@ -17,6 +17,14 @@
             event.preventDefault();
 
             let formData = new FormData(this);
+            // Process categories: split by comma and trim spaces
+            let categoriesInput = formData.get("categories");
+            if (categoriesInput) {
+                let categoriesArray = categoriesInput.split(",").map(c => c.trim()).filter(c => c.length > 0);
+                formData.set("categories", JSON.stringify(categoriesArray));
+            }
+            
+            console.log(formData);
 
             try {
                 let response = await fetch("/IdeeenController/SubmitForm", {
@@ -51,6 +59,12 @@
 
         // Append each idee to the list.
         data.forEach(idee => {
+            console.log(idee);
+
+            let categories = idee.categories[0]
+                .replace(/[\[\]"]/g, "")
+                .replace(/,(\S)/g, ', $1');
+
             const ideeDiv = document.createElement("div");
             ideeDiv.classList.add("idee-item");
             ideeDiv.innerHTML = `
@@ -58,7 +72,7 @@
                 <div><p><strong>Beschrijving:</strong> ${idee.beschrijving}</p></div>
                 <div><p><strong>Gebruiker:</strong> ${idee.username} (ID: ${idee.userId})</p></div>
                 <div><p><strong>Type:</strong> ${idee.type}</p></div>
-                <div><p><strong>Categories:</strong> ${idee.categories}</p></div>
+                <div><p><strong>Categories:</strong> ${categories}</p></div>
                 ${idee.beginDatum ? `<div><p><strong>Begin Datum:</strong> ${idee.beginDatum}</p></div>` : ""}
                 ${idee.eindDatum ? `<div><p><strong>Eind Datum:</strong> ${idee.eindDatum}</p></div>` : ""}
             `;

@@ -25,8 +25,9 @@ public class IdeeEntity
 
     public string? eindDatum { get; set; }
 
-    // TODO make list
-    public string categories { get; set; }
+    // relationship stuff
+    public List<CategoryInIdeeEntity> categoryInIdeeEntities { get; } = new List<CategoryInIdeeEntity>();
+    public List<CategorieEntity> categoryEntities { get; set; } = new List<CategorieEntity>();
 
     public static IdeeEntity fromModel(Idee model) { 
         IdeeEntity entity = new IdeeEntity();
@@ -37,7 +38,7 @@ public class IdeeEntity
         entity.type = model.type;
         entity.beginDatum = model.beginDatum;
         entity.eindDatum = model.eindDatum;
-        entity.categories = model.categories;
+        entity.categoryEntities = model.categories.Select(c => new CategorieEntity { Naam = c }).ToList();
         return entity;
     }
 }
