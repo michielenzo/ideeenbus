@@ -2,7 +2,144 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<link href="~/css/form.css" rel="stylesheet" type="text/css" />
+<link href="~/css/ideenlijst.css" rel="stylesheet" type="text/css" />
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        toggleDateFields();
+
+        document.getElementById("dataForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            let formData = new FormData(this);
+
+            try {
+                let response = await fetch("/IdeeenController/SubmitForm", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to submit form");
+                }
+
+                let responseJson = await response.json();
+
+                console.log(responseJson);
+
+                if(responseJson.success){
+                    clearErrors();
+                    renderIdeeen(responseJson.data);
+                } else {
+                    renderErrors(responseJson);
+                }
+            } catch (error) {
+               console.log(error);
+            }
+        });
+    });
+
+    function renderIdeeen(data){
+        // Clear previous content
+        const ideeList = document.getElementById("ideeList");
+        ideeList.innerHTML = "";
+
+        // Append each idee to the list.
+        data.forEach(idee => {
+            const ideeDiv = document.createElement("div");
+            ideeDiv.classList.add("idee-item");
+            ideeDiv.innerHTML = `
+                <div><h5>${idee.onderwerp}</h5></div>
+                <div><p><strong>Beschrijving:</strong> ${idee.beschrijving}</p></div>
+                <div><p><strong>Gebruiker:</strong> ${idee.username} (ID: ${idee.userId})</p></div>
+                <div><p><strong>Type:</strong> ${idee.type}</p></div>
+                <div><p><strong>Categories:</strong> ${idee.categories}</p></div>
+                ${idee.beginDatum ? `<div><p><strong>Begin Datum:</strong> ${idee.beginDatum}</p></div>` : ""}
+                ${idee.eindDatum ? `<div><p><strong>Eind Datum:</strong> ${idee.eindDatum}</p></div>` : ""}
+            `;
+            ideeList.appendChild(ideeDiv);
+        });
+    }
+
+    function renderErrors(responseJson){
+        clearErrors();
+
+        const errorDiv =  document.getElementById("errorDiv");
+        for(let i = 0; i < responseJson.errors.length; i++){
+            console.log(responseJson.errors[i]);
+            errorDiv.innerHTML += `
+                <p>${responseJson.errors[i]}</p>
+            `;
+        }
+    }
+
+    function clearErrors(){
+        const errorDiv =  document.getElementById("errorDiv");
+        errorDiv.innerHTML = "";
+    }
+
+    function toggleDateFields(){
+        const typeSelect = document.getElementById("type");
+        const dateFields = document.getElementById("dateFields");
+
+        // Show or hide the date fields based on the selection of type.
+        typeSelect.addEventListener("change", function () {
+            if (typeSelect.value === "uitje") {
+                dateFields.style.display = "block";
+            } else {
+                dateFields.style.display = "none";
+            }
+        });
+    }
+</script>
+
+<div class="text-center form-container">
+    <h1 class="display-4">Ideeënbus</h1>
+
+    <form id="dataForm" asp-action="SubmitForm" asp-controller="IdeeenController" method="post">
+        <label for="onderwerp">Onderwerp</label>
+        <input type="text" id="onderwerp" name="Onderwerp" maxlength="512" required class="form-control">
+        <br>
+
+        <label for="beschrijving">Beschrijving</label>
+        <textarea id="beschrijving" name="beschrijving" required class="form-control"></textarea>
+        <br>
+
+        <label for="userId">User ID</label>
+        <input type="number" id="userId" name="userId" class="form-control">
+        <br>
+
+        <label for="userName">User Name</label>
+        <input type="text" id="userName" name="username" maxlength="512" class="form-control">
+        <br>
+
+        <label for="type">Type</label>
+        <select id="type" name="type" required class="form-control">
+            <option value="suggestie">Suggestie</option>
+            <option value="uitje">Uitje</option>
+        </select>
+        <br>
+
+        <div id="dateFields" style="display: none;">
+            <label for="beginDatum">Begin Datum</label>
+            <input type="datetime-local" id="beginDatum" name="beginDatum" class="form-control">
+            <br>
+
+            <label for="eindDatum">Eind Datum</label>
+            <input type="datetime-local" id="eindDatum" name="eindDatum" class="form-control">
+            <br>
+        </div>
+
+        <label for="categories">Categories</label>
+        <textarea id="categories" name="categories" placeholder="Enter categories, separated by commas" class="form-control"></textarea>
+        <br>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <div id="errorDiv"></div>
+
+    <h2>Ideeën</h2>
+    <div id="ideeList" class="mt-4"></div>
 </div>

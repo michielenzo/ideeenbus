@@ -1,0 +1,23 @@
+p {
+    color: blueviolet;
+}
+
+.form-container {
+    background-color: #EEEEEE;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#dataForm {
+    width: 40%;
+    align-self: center;
+}
+
+form {
+    margin-bottom: 30px;
+}
+
+#errorDiv p {
+    color: darkred
+}

@@ -1,0 +1,15 @@
+﻿#idee-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.idee-item {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    justify-self: center;
+}
+
+.idee-item div {
+    margin-right: 10px;
+}
