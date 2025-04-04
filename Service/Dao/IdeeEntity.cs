@@ -18,15 +18,14 @@ public class IdeeEntity
 
     public string? username { get; set; }
 
-    // TODO make enum?
     public string type { get; set; }
 
     public string? beginDatum { get; set; }
 
     public string? eindDatum { get; set; }
 
-    // relationship stuff
     public List<CategoryInIdeeEntity> categoryInIdeeEntities { get; } = new List<CategoryInIdeeEntity>();
+
     public List<CategorieEntity> categoryEntities { get; set; } = new List<CategorieEntity>();
 
     public static IdeeEntity fromModel(Idee model) { 

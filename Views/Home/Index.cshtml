@@ -17,6 +17,7 @@
             event.preventDefault();
 
             let formData = new FormData(this);
+
             // Process categories: split by comma and trim spaces
             let categoriesInput = formData.get("categories");
             if (categoriesInput) {
