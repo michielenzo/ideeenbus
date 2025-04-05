@@ -17,20 +17,7 @@
             event.preventDefault();
 
             let formData = new FormData(this);
-
-            // Process categories: split by comma and trim spaces
-            let categoriesInput = formData.get("categories");
-            if (categoriesInput) {
-                let categoriesArray = categoriesInput.split(",").map(c => c.trim()).filter(c => c.length > 0);
-                formData.set("categories", JSON.stringify(categoriesArray));
-            } else {
-                formData.delete("categories");
-            }
-
-            formData.forEach(data => {
-                console.log(data);
-            })
-            //console.log(formData.entries());
+            prepareCategories(formData);
 
             try {
                 let response = await fetch("/IdeeenController/SubmitForm", {
@@ -44,8 +31,6 @@
 
                 let responseJson = await response.json();
 
-                console.log(responseJson);
-
                 if(responseJson.success){
                     clearErrors();
                     renderIdeeen(responseJson.data);
@@ -56,6 +41,16 @@
                 console.log(error);
             }
         });
+    }
+
+    function prepareCategories(formData){
+        let categoriesInput = formData.get("categories");
+        if (categoriesInput) {
+            let categoriesArray = categoriesInput.split(",").map(c => c.trim()).filter(c => c.length > 0);
+            formData.set("categories", JSON.stringify(categoriesArray));
+        } else {
+            formData.delete("categories");
+        }
     }
 
     function renderIdeeen(data){
@@ -118,7 +113,7 @@
 <div class="text-center form-container">
     <h1 class="display-4">Ideeënbus</h1>
 
-    <form id="dataForm" asp-action="SubmitForm" asp-controller="IdeeenController" method="post">
+    <form id="dataForm">
         <label for="onderwerp">Onderwerp</label>
         <input type="text" id="onderwerp" name="Onderwerp" maxlength="512" required class="form-control">
         <br>
