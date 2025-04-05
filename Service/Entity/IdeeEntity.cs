@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class IdeeEntity
 {
+    #pragma warning disable CS8618 // Geen required keyword omdat deze waarde auto generated is.
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Required]
@@ -34,22 +35,22 @@ public class IdeeEntity
 
     public List<CategorieEntity> CategoryEntities { get; set; } = [];
 
-    public static IdeeEntity fromModel(Idee model) { 
-        IdeeEntity entity = new IdeeEntity { 
-            Onderwerp = model.onderwerp,
-            Beschrijving = model.beschrijving,
-            Type = model.type
+    public static IdeeEntity FromModel(Idee model) {
+        IdeeEntity entity = new()
+        {
+            Onderwerp = model.Onderwerp,
+            Beschrijving = model.Beschrijving,
+            Type = model.Type,
+            UserId = model.UserId,
+            Username = model.Username,
+            BeginDatum = model.BeginDatum,
+            EindDatum = model.EindDatum,
+            CategoryEntities = !string.IsNullOrWhiteSpace(model.Categories?.FirstOrDefault()) ? model.Categories.First()
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(c => c.Trim('[', ']', '"'))
+                    .Select(c => new CategorieEntity { Naam = c })
+                    .ToList() : []
         };
-
-        entity.UserId = model.userId;
-        entity.Username = model.username;
-        entity.BeginDatum = model.beginDatum;
-        entity.EindDatum = model.eindDatum;
-        entity.CategoryEntities = !string.IsNullOrWhiteSpace(model.categories?.FirstOrDefault()) ? model.categories.First()
-                .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                .Select(c => c.Trim('[', ']', '"'))
-                .Select(c => new CategorieEntity { Naam = c })
-                .ToList() : [];
 
         return entity;
     }

@@ -11,7 +11,7 @@ using ideeenbus.Service;
 namespace ideeenbus.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20250405192456_InitialMigration")]
+    [Migration("20250405194820_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

@@ -8,32 +8,32 @@ public class Idee
 {
     [Required]
     [StringLength(512)]
-    public string onderwerp { get; set; }
+    public required string Onderwerp { get; set; }
 
     [Required]
-    public string beschrijving { get; set; }
+    public required string Beschrijving { get; set; }
 
-    public int? userId { get; set; }
+    public int? UserId { get; set; }
 
     [StringLength(512)]
-    public string? username { get; set; }
+    public string? Username { get; set; }
 
     [Required]
-    public string type { get; set; }
+    public required string Type { get; set; }
 
-    public DateTime? beginDatum { get; set; }
+    public DateTime? BeginDatum { get; set; }
 
-    public DateTime? eindDatum { get; set; }
+    public DateTime? EindDatum { get; set; }
 
-    public List<string>? categories { get; set; } = new List<string>();
+    public List<string>? Categories { get; set; } = new List<string>();
 
-    public string? duration
+    public string? Duration
     {
         get
         {
-            if (beginDatum.HasValue && eindDatum.HasValue)
+            if (BeginDatum.HasValue && EindDatum.HasValue)
             {
-                TimeSpan timeDiff = eindDatum.Value - beginDatum.Value;
+                TimeSpan timeDiff = EindDatum.Value - BeginDatum.Value;
                 if (timeDiff.TotalSeconds <= 0) return "Geen duur";
                 return $"{timeDiff.Days} dag(en) {timeDiff.Hours} uur en {timeDiff.Minutes} minut(en)";
             }
@@ -42,26 +42,29 @@ public class Idee
     }
 
     public static Idee FromEntity(IdeeEntity entity) {
-        Idee idee = new Idee();
-        idee.onderwerp = entity.Onderwerp;
-        idee.beschrijving = entity.Beschrijving;
-        idee.userId = entity.UserId;
-        idee.username = entity.Username;
-        idee.type = entity.Type;
-        idee.beginDatum = entity.BeginDatum;
-        idee.eindDatum = entity.EindDatum;
-        idee.categories = entity.CategoryEntities.Select(c => c.Naam).ToList();
+        Idee idee = new()
+        {
+            Onderwerp = entity.Onderwerp,
+            Beschrijving = entity.Beschrijving,
+            UserId = entity.UserId,
+            Username = entity.Username,
+            Type = entity.Type,
+            BeginDatum = entity.BeginDatum,
+            EindDatum = entity.EindDatum,
+            Categories = entity.CategoryEntities.Select(c => c.Naam).ToList()
+        };
+
         return idee;
     }
 
     public void Validate() {
         List<string> errors = new List<string>();
 
-        if (type == "uitje" && (beginDatum == null || eindDatum == null))
+        if (Type == "uitje" && (BeginDatum == null || EindDatum == null))
         {
             errors.Add("Een uitje moet een begin en einddatum hebben.");
         }
-        if (type == "suggestie" && (beginDatum != null || eindDatum != null))
+        if (Type == "suggestie" && (BeginDatum != null || EindDatum != null))
         {
             errors.Add("Een suggestie mag geen begin en einddatum hebben.");
         }

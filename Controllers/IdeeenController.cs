@@ -25,7 +25,7 @@ public class IdeeenController: ControllerBase {
         {
             idee.Validate();
 
-            _context.Add(IdeeEntity.fromModel(idee));
+            _context.Add(IdeeEntity.FromModel(idee));
             await _context.SaveChangesAsync();
 
             // TODO sort based on creation DateTime descending from the latest.
