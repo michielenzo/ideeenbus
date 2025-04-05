@@ -2,7 +2,7 @@ namespace ideeenbus.Service;
 
 using Microsoft.EntityFrameworkCore;
 using System;
-using ideeenbus.Service.Dao;
+using ideeenbus.Service.Entity;
 
 public class DatabaseContext : DbContext
 {
@@ -22,8 +22,8 @@ public class DatabaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<IdeeEntity>()
-            .HasMany(e => e.categoryEntities)
-            .WithMany(e => e.ideeEntities);
+            .HasMany(e => e.CategoryEntities)
+            .WithMany(e => e.IdeeEntities);
     }
 
     // The following configures EF to create a Sqlite database file in the

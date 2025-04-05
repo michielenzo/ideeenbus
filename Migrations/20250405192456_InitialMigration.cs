@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -28,13 +29,13 @@ namespace ideeenbus.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    onderwerp = table.Column<string>(type: "TEXT", nullable: false),
-                    beschrijving = table.Column<string>(type: "TEXT", nullable: false),
-                    userId = table.Column<int>(type: "INTEGER", nullable: true),
-                    username = table.Column<string>(type: "TEXT", nullable: true),
-                    type = table.Column<string>(type: "TEXT", nullable: false),
-                    beginDatum = table.Column<string>(type: "TEXT", nullable: true),
-                    eindDatum = table.Column<string>(type: "TEXT", nullable: true)
+                    Onderwerp = table.Column<string>(type: "TEXT", maxLength: 512, nullable: false),
+                    Beschrijving = table.Column<string>(type: "TEXT", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Username = table.Column<string>(type: "TEXT", maxLength: 512, nullable: true),
+                    Type = table.Column<string>(type: "TEXT", nullable: false),
+                    BeginDatum = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    EindDatum = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -45,21 +46,21 @@ namespace ideeenbus.Migrations
                 name: "CategorieEntityIdeeEntity",
                 columns: table => new
                 {
-                    categoryEntitiesId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ideeEntitiesId = table.Column<string>(type: "TEXT", nullable: false)
+                    CategoryEntitiesId = table.Column<int>(type: "INTEGER", nullable: false),
+                    IdeeEntitiesId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CategorieEntityIdeeEntity", x => new { x.categoryEntitiesId, x.ideeEntitiesId });
+                    table.PrimaryKey("PK_CategorieEntityIdeeEntity", x => new { x.CategoryEntitiesId, x.IdeeEntitiesId });
                     table.ForeignKey(
-                        name: "FK_CategorieEntityIdeeEntity_Categories_categoryEntitiesId",
-                        column: x => x.categoryEntitiesId,
+                        name: "FK_CategorieEntityIdeeEntity_Categories_CategoryEntitiesId",
+                        column: x => x.CategoryEntitiesId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CategorieEntityIdeeEntity_Ideeen_ideeEntitiesId",
-                        column: x => x.ideeEntitiesId,
+                        name: "FK_CategorieEntityIdeeEntity_Ideeen_IdeeEntitiesId",
+                        column: x => x.IdeeEntitiesId,
                         principalTable: "Ideeen",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -91,9 +92,9 @@ namespace ideeenbus.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CategorieEntityIdeeEntity_ideeEntitiesId",
+                name: "IX_CategorieEntityIdeeEntity_IdeeEntitiesId",
                 table: "CategorieEntityIdeeEntity",
-                column: "ideeEntitiesId");
+                column: "IdeeEntitiesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CategorieInIdeeEntities_CategorieEntityId",

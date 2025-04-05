@@ -1,7 +1,6 @@
-namespace ideeenbus.Service.Dao;
+namespace ideeenbus.Service.Entity;
 
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 [PrimaryKey(nameof(CategoryEntityId), nameof(IdeeEntityId))]
 public class CategoryInIdeeEntity 

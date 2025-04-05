@@ -1,6 +1,6 @@
 namespace ideeenbus.Models;
 
-using ideeenbus.Service.Dao;
+using ideeenbus.Service.Entity;
 using ideeenbus.Exceptions;
 using System.ComponentModel.DataAnnotations;
 
@@ -43,14 +43,14 @@ public class Idee
 
     public static Idee FromEntity(IdeeEntity entity) {
         Idee idee = new Idee();
-        idee.onderwerp = entity.onderwerp;
-        idee.beschrijving = entity.beschrijving;
-        idee.userId = entity.userId;
-        idee.username = entity.username;
-        idee.type = entity.type;
-        idee.beginDatum = entity.beginDatum;
-        idee.eindDatum = entity.eindDatum;
-        idee.categories = entity.categoryEntities.Select(c => c.Naam).ToList();
+        idee.onderwerp = entity.Onderwerp;
+        idee.beschrijving = entity.Beschrijving;
+        idee.userId = entity.UserId;
+        idee.username = entity.Username;
+        idee.type = entity.Type;
+        idee.beginDatum = entity.BeginDatum;
+        idee.eindDatum = entity.EindDatum;
+        idee.categories = entity.CategoryEntities.Select(c => c.Naam).ToList();
         return idee;
     }
 

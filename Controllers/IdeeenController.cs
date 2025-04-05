@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ideeenbus.Models;
 using ideeenbus.Service;
-using ideeenbus.Service.Dao;
+using ideeenbus.Service.Entity;
 using Microsoft.EntityFrameworkCore;
 using ideeenbus.Exceptions;
 using ideeenbus.Controllers.Dto;
@@ -30,7 +30,7 @@ public class IdeeenController: ControllerBase {
 
             // TODO sort based on creation DateTime descending from the latest.
             List<IdeeEntity> ideeEntities = await _context.Ideeen
-                .Include(i => i.categoryEntities)
+                .Include(i => i.CategoryEntities)
                 .ToListAsync();
 
             return Ok(new SubmitIdeeResponse(ideeEntities.Select(Idee.FromEntity)));
