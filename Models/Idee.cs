@@ -25,6 +25,8 @@ public class Idee
 
     public DateTime? eindDatum { get; set; }
 
+    public List<string>? categories { get; set; } = new List<string>();
+
     public string? duration
     {
         get
@@ -38,8 +40,6 @@ public class Idee
             return null;
         }
     }
-
-    public List<string> categories { get; set; } = new List<string>();
 
     public static Idee FromEntity(IdeeEntity entity) {
         Idee idee = new Idee();

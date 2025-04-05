@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\dev\\projects\\ideeenbus\\ideeenbus.csproj": {}
+    "C:\\dev\\projects\\c#\\ideeenbus\\ideeenbus.csproj": {}
   },
   "projects": {
-    "C:\\dev\\projects\\ideeenbus\\ideeenbus.csproj": {
+    "C:\\dev\\projects\\c#\\ideeenbus\\ideeenbus.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\dev\\projects\\ideeenbus\\ideeenbus.csproj",
+        "projectUniqueName": "C:\\dev\\projects\\c#\\ideeenbus\\ideeenbus.csproj",
         "projectName": "ideeenbus",
-        "projectPath": "C:\\dev\\projects\\ideeenbus\\ideeenbus.csproj",
+        "projectPath": "C:\\dev\\projects\\c#\\ideeenbus\\ideeenbus.csproj",
         "packagesPath": "C:\\Users\\michi\\.nuget\\packages\\",
-        "outputPath": "C:\\dev\\projects\\ideeenbus\\obj\\",
+        "outputPath": "C:\\dev\\projects\\c#\\ideeenbus\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

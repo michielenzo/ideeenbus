@@ -37,7 +37,11 @@ public class IdeeEntity
         entity.type = model.type;
         entity.beginDatum = model.beginDatum;
         entity.eindDatum = model.eindDatum;
-        entity.categoryEntities = model.categories.Select(c => new CategorieEntity { Naam = c }).ToList();
+        entity.categoryEntities = !string.IsNullOrWhiteSpace(model.categories?.FirstOrDefault()) ? model.categories.First()
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(c => c.Trim('[', ']', '"'))
+                .Select(c => new CategorieEntity { Naam = c })
+                .ToList() : [];
         return entity;
     }
 }
