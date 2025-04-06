@@ -49,11 +49,10 @@ public class IdeeEntity
             BeginDatum = model.BeginDatum,
             EindDatum = model.EindDatum,
             CreatedAt = DateTime.Now,
-            CategoryEntities = !string.IsNullOrWhiteSpace(model.Categories?.FirstOrDefault()) ? model.Categories.First()
+            CategoryEntities = !string.IsNullOrWhiteSpace(model.Categories?.FirstOrDefault()) ? [.. model.Categories.First()
                     .Split(',', StringSplitOptions.RemoveEmptyEntries)
                     .Select(c => c.Trim('[', ']', '"'))
-                    .Select(c => new CategorieEntity { Naam = c })
-                    .ToList() : []
+                    .Select(c => new CategorieEntity { Naam = c })] : []
         };
 
         return entity;

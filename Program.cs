@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<DatabaseContext, DatabaseContext>();
 builder.Services.AddScoped<IIdeeenService, IdeeenService>();
+builder.Services.AddScoped<IIdeeenStorage, EFCoreSQLiteAdapter>();
 
 var app = builder.Build();
 
