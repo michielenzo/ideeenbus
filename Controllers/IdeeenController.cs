@@ -13,8 +13,7 @@ public class IdeeenController(IIdeeenService ideeenService) : ControllerBase {
 
     private readonly IIdeeenService _ideeenService = ideeenService;
 
-    [HttpPost]
-    [Route("SubmitForm")]
+    [HttpPost("SubmitForm")]
     public async Task<IActionResult> SubmitForm([FromForm] Idee idee)
     {
         try
@@ -29,12 +28,12 @@ public class IdeeenController(IIdeeenService ideeenService) : ControllerBase {
         }
         catch (BusinessLogicException ex)
         {
-            return Ok(new SubmitIdeeResponse(ex.errors));
+            return UnprocessableEntity(new SubmitIdeeResponse(ex.errors));
         }
         catch (Exception ex)
         {
             Console.Error.WriteLine(ex.ToString());
-            return Problem(ex.Message);
+            return Problem("Internal server error. Something went wrong.");
         }
     }
 
