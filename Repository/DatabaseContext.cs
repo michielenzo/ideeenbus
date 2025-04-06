@@ -1,22 +1,22 @@
-namespace ideeenbus.Service;
+namespace ideeenbus.Repository;
 
 using Microsoft.EntityFrameworkCore;
 using System;
-using ideeenbus.Service.Entity;
+using ideeenbus.Repository.Entity;
 
 public class DatabaseContext : DbContext
 {
+    public string DbPath { get; }
+
     public DbSet<IdeeEntity> Ideeen { get; set; }
     public DbSet<CategorieEntity> Categories { get; set; }
     public DbSet<CategoryInIdeeEntity> CategorieInIdeeEntities { get; set; }
-
-    public string DbPath { get; }
 
     public DatabaseContext()
     {
         var folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);
-        DbPath = System.IO.Path.Join(path, "ideeenbus.db");
+        DbPath = Path.Join(path, "ideeenbus.db");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,8 +26,6 @@ public class DatabaseContext : DbContext
             .WithMany(e => e.IdeeEntities);
     }
 
-    // The following configures EF to create a Sqlite database file in the
-    // special "local" folder for your platform.
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");
 }

@@ -1,4 +1,4 @@
-namespace ideeenbus.Service.Entity;
+namespace ideeenbus.Repository.Entity;
 
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
@@ -10,6 +10,7 @@ public class CategorieEntity
     public int Id { get; set; }
 
     [Required]
+    [MaxLength(512)]
     public required string Naam { get; set; }
 
     public List<CategoryInIdeeEntity> CategoryInIdeeEntities { get; } = [];

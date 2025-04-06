@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ideeenbus.Service;
+using ideeenbus.Repository;
 
 #nullable disable
 
 namespace ideeenbus.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20250405194820_InitialMigration")]
+    [Migration("20250406130645_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -43,6 +43,7 @@ namespace ideeenbus.Migrations
 
                     b.Property<string>("Naam")
                         .IsRequired()
+                        .HasMaxLength(512)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -84,6 +85,9 @@ namespace ideeenbus.Migrations
 
                     b.Property<string>("Beschrijving")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("EindDatum")

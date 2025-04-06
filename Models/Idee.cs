@@ -1,8 +1,9 @@
 namespace ideeenbus.Models;
 
-using ideeenbus.Service.Entity;
 using ideeenbus.Exceptions;
 using System.ComponentModel.DataAnnotations;
+using System;
+using ideeenbus.Repository.Entity;
 
 public class Idee
 {
@@ -25,7 +26,7 @@ public class Idee
 
     public DateTime? EindDatum { get; set; }
 
-    public List<string>? Categories { get; set; } = new List<string>();
+    public List<string>? Categories { get; set; } = [];
 
     public string? Duration
     {
@@ -51,26 +52,31 @@ public class Idee
             Type = entity.Type,
             BeginDatum = entity.BeginDatum,
             EindDatum = entity.EindDatum,
-            Categories = entity.CategoryEntities.Select(c => c.Naam).ToList()
+            Categories = [.. entity.CategoryEntities.Select(c => c.Naam)]
         };
 
         return idee;
     }
 
     public void Validate() {
-        List<string> errors = new List<string>();
+        List<string> errors = [];
 
-        if (Type == "uitje" && (BeginDatum == null || EindDatum == null))
+        if (Type == "uitje" && (!BeginDatum.HasValue || !EindDatum.HasValue))
         {
             errors.Add("Een uitje moet een begin en einddatum hebben.");
         }
-        if (Type == "suggestie" && (BeginDatum != null || EindDatum != null))
+        if (Type == "suggestie" && (BeginDatum.HasValue || EindDatum.HasValue))
         {
             errors.Add("Een suggestie mag geen begin en einddatum hebben.");
         }
-
-        // TODO validate if eindDatum is after beginDatum
-
+        if (BeginDatum.HasValue && EindDatum.HasValue && BeginDatum > EindDatum) 
+        {
+            errors.Add("De einddatum mag niet voor de begindatum zijn.");
+        }
+        if (BeginDatum.HasValue && BeginDatum < DateTime.Now) 
+        {
+            errors.Add("De begindatum ligt in het verleden.");
+        }
 
         if (errors.Count > 0)
         {

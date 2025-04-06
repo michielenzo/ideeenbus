@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ideeenbus.Service;
+using ideeenbus.Repository;
 
 #nullable disable
 
@@ -40,6 +40,7 @@ namespace ideeenbus.Migrations
 
                     b.Property<string>("Naam")
                         .IsRequired()
+                        .HasMaxLength(512)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -81,6 +82,9 @@ namespace ideeenbus.Migrations
 
                     b.Property<string>("Beschrijving")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("EindDatum")

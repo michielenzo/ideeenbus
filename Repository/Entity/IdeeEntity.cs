@@ -1,4 +1,4 @@
-namespace ideeenbus.Service.Entity;
+namespace ideeenbus.Repository.Entity;
 
 using ideeenbus.Models;
 using System.ComponentModel.DataAnnotations;
@@ -31,6 +31,9 @@ public class IdeeEntity
 
     public DateTime? EindDatum { get; set; }
 
+    [Required]
+    public required DateTime CreatedAt { get; set; }
+
     public List<CategoryInIdeeEntity> CategoryInIdeeEntities { get; } = [];
 
     public List<CategorieEntity> CategoryEntities { get; set; } = [];
@@ -45,6 +48,7 @@ public class IdeeEntity
             Username = model.Username,
             BeginDatum = model.BeginDatum,
             EindDatum = model.EindDatum,
+            CreatedAt = DateTime.Now,
             CategoryEntities = !string.IsNullOrWhiteSpace(model.Categories?.FirstOrDefault()) ? model.Categories.First()
                     .Split(',', StringSplitOptions.RemoveEmptyEntries)
                     .Select(c => c.Trim('[', ']', '"'))

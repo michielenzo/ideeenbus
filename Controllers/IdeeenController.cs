@@ -1,21 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using ideeenbus.Models;
-using ideeenbus.Service;
-using ideeenbus.Service.Entity;
-using Microsoft.EntityFrameworkCore;
 using ideeenbus.Exceptions;
 using ideeenbus.Controllers.Dto;
+using ideeenbus.Service;
 
 
 namespace ideeenbus.Controllers;
 
 [ApiController]
 [Route("IdeeenController/")]
-public class IdeeenController: ControllerBase {
+public class IdeeenController(IIdeeenService ideeenService) : ControllerBase {
 
-    // Todo use dependency injection here i.c.m adapter pattern for data storage.
-    // the adapter pattern will make it easy to adapt to another storage method.
-    private DatabaseContext _context = new DatabaseContext();
+    private readonly IIdeeenService _ideeenService = ideeenService;
 
     [HttpPost]
     [Route("SubmitForm")]
@@ -25,15 +21,11 @@ public class IdeeenController: ControllerBase {
         {
             idee.Validate();
 
-            _context.Add(IdeeEntity.FromModel(idee));
-            await _context.SaveChangesAsync();
+            await _ideeenService.PersistAsync(idee);
 
-            // TODO sort based on creation DateTime descending from the latest.
-            List<IdeeEntity> ideeEntities = await _context.Ideeen
-                .Include(i => i.CategoryEntities)
-                .ToListAsync();
+            List<Idee> ideeen = await _ideeenService.FetchAllAsync();
 
-            return Ok(new SubmitIdeeResponse(ideeEntities.Select(Idee.FromEntity)));
+            return Ok(new SubmitIdeeResponse(ideeen));
         }
         catch (BusinessLogicException ex)
         {
@@ -47,5 +39,5 @@ public class IdeeenController: ControllerBase {
     }
 
     // TODO Add another endpoint which retrieves all ideeen. This endpoint should have parameters to filter on idee type.
-    // The view can call this on startup to display the existing ideeen.
+    // The view can call this on startup or on filter request.
 }

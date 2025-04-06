@@ -1,7 +1,15 @@
+using ideeenbus.Repository;
+using ideeenbus.Service;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyModel;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<DatabaseContext, DatabaseContext>();
+builder.Services.AddScoped<IIdeeenService, IdeeenService>();
 
 var app = builder.Build();
 
@@ -23,6 +31,6 @@ app.MapStaticAssets();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+.WithStaticAssets();
 
 app.Run();

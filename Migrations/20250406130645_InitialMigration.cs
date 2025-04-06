@@ -17,7 +17,7 @@ namespace ideeenbus.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Naam = table.Column<string>(type: "TEXT", nullable: false)
+                    Naam = table.Column<string>(type: "TEXT", maxLength: 512, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,7 +35,8 @@ namespace ideeenbus.Migrations
                     Username = table.Column<string>(type: "TEXT", maxLength: 512, nullable: true),
                     Type = table.Column<string>(type: "TEXT", nullable: false),
                     BeginDatum = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    EindDatum = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    EindDatum = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

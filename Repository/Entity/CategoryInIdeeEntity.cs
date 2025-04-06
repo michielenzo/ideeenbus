@@ -1,4 +1,4 @@
-namespace ideeenbus.Service.Entity;
+namespace ideeenbus.Repository.Entity;
 
 using Microsoft.EntityFrameworkCore;
 
